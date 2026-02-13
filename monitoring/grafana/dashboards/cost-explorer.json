@@ -1,0 +1,38 @@
+{
+  "dashboard": {
+    "title": "Cost Explorer",
+    "panels": [
+      {
+        "title": "Daily Cost by Provider",
+        "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+        "targets": [
+          {
+            "expr": "sum(rate(llm_gateway_cost_total[1h])) by (provider) * 86400",
+            "legendFormat": "{{provider}}"
+          }
+        ]
+      },
+      {
+        "title": "Top 10 Expensive Users",
+        "type": "table",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+        "targets": [
+          {
+            "expr": "topk(10, sum(llm_gateway_cost_total) by (user_id))"
+          }
+        ]
+      },
+      {
+        "title": "Budget Utilization",
+        "type": "gauge",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+        "targets": [
+          {
+            "expr": "llm_gateway_org_spend / llm_gateway_org_budget"
+          }
+        ]
+      }
+    ]
+  }
+}
